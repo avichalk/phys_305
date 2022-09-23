@@ -36,18 +36,17 @@ def main():
 	print(f'Percentage Error! {fp((prog_soln-analytical_res)/analytical_res*100)}%')
 	
 
-	up = 10
-	x = np.arange(2, up)
+	x = np.arange(2, b)
 	y = []
-	for i in range(2, up):
+	for i in range(2, b):
 		y.append(2 * romberg_integration(func, a, i, *P))
 
 	fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(10, 5))
 	ax[0].plot(x, np.array(y))
-	ax[0].set_title('Solution Over Time')
-	ax[0].set_xlabel('Upper Limit of Integral')
-	ax[1].set_xlabel('Upper Limit of Integral')
-	ax[1].set_title('Percentage Error over Time')	
+	ax[0].set_title('Solution Over b')
+	ax[0].set_xlabel('Upper Limit of Integral b')
+	ax[1].set_xlabel('Upper Limit of Integral b')
+	ax[1].set_title('Percentage Error over b')	
 	ax[0].set_ylabel('Integrand Solution')
 	ax[1].set_ylabel('Percentage Error')
 	ax[1].plot(x, (np.array([(i-analytical_res)/analytical_res*100 for i in y])))

@@ -24,6 +24,7 @@ fprint = lambda inpt: print('{:.5E}'.format((inpt)))  ## do the fancy print
 
 import math
 import numpy as np
+import matplotlib.pyplot as plt
 from astropy import constants as const
 
 def main():
@@ -38,10 +39,28 @@ def main():
 	#print(i)
 	#print(analytical_res)
 
-	soln = lambda res: 2*np.pi/const.c.cgs**2*(const.k_B.cgs**4)/const.h.cgs**3*res ## bless you astropy
+	soln = lambda res: const.sigma_sb.cgs*1/analytical_res*res ## god bless you astropy
 	print(f'Programmatical Solution! {fp(soln(i))}')
 	print(f'Analytical Solution! {fp(soln(analytical_res))}')
 	print(f'Percentage Error! {fp((soln(i)-soln(analytical_res))/soln(analytical_res)*100)}%')
+
+	x = np.arange(10, b)
+	y = []
+	for i in range(10, b):
+		y.append(2 * romberg_integration(func, i, b, *P))
+
+	fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(10, 5))
+	ax[0].plot(x, np.array(y))
+	ax[0].set_title('Contribution of Terms over n')
+	ax[0].set_xlabel('Lower Limit of Integral')
+	ax[1].set_xlabel('Lower Limit of Integral')
+	ax[1].set_title('Log of contributions over n')	
+	ax[0].set_ylabel('Integrand Solution for lower limit n')
+	ax[1].set_ylabel('Log of integrand solution')
+	ax[1].plot(x, (np.log(np.array(y))))
+	plt.show()
+
+
 
 def next_trapezoidal(func, a, b, n):
 	N = 2 ** n
